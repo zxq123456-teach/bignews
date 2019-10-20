@@ -90,11 +90,12 @@
 
     // 个人信息修改
 
-    $('.btn-edit').click(function() {
+    $('.btn-edit').click(function(e) {
       e.preventDefault();
       // 创建FormData
       // FormData需要传入doc对象
-      var data = new FormData(document.querySelector('.form'));
+      // var data = new FormData($('form')[0]);
+      var data = new FormData(document.querySelector('form'));
 
       $.ajax({
         url: BigNew.user_edit,
@@ -108,7 +109,7 @@
           // 如果更新成功
           if (backData.code == 200) {
             // 刷新父页面
-            window.parent.location.reload()
+            window.parent.location.href = './index.html';
           }
         }
       })
