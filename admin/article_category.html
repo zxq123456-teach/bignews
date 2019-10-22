@@ -119,34 +119,56 @@
     }
 
     // 获取文章类别数据
-    getCategoryData(
+    getCategoryData();
 
-      // 点击新增分类
-      $('.btn-primary').click(function() {
-        // 获取数据
-        var name = $('.cate-name').val();
-        var slug = $('.cate-slug').val();
+    // 点击新增分类
+    $('.btn-primary').click(function() {
+      // 获取数据
+      var name = $('.cate-name').val();
+      var slug = $('.cate-slug').val();
 
-        $.ajax({
-          url: BigNew.category_add,
-          type: 'post',
-          data: {
-            name: name,
-            slug: slug
-          },
-          success: function(backData) {
-            // console.log(bakData);
-            if (backData.code === 201) {
-              // 成功了
-              $('#myModal').modal('hide');
-              // 重新获取分类信息
-              getCategoryData();
-            }
-
+      $.ajax({
+        url: BigNew.category_add,
+        type: 'post',
+        data: {
+          name: name,
+          slug: slug
+        },
+        success: function(backData) {
+          // console.log(bakData);
+          if (backData.code === 201) {
+            // 成功了
+            $('#myModal').modal('hide');
+            // 重新获取分类信息
+            getCategoryData();
           }
-        })
+        }
       })
-    )
+    })
+
+    // 点击删除
+    // tr是动态创建的 需要用到事件委托
+    // $(".btn-delete").click(function () {
+    $("tbody").on("click", ".btn-delete", function() {
+      // 获取id
+      var id = $(this).attr("data-id")
+        // 调用接口
+      $.ajax({
+        url: BigNew.category_delete,
+        type: "post",
+        data: {
+          id: id
+        },
+        success: function(backData) {
+          console.log(backData);
+          // 如果删除成功
+          // 重新获取数据
+          if (backData.code === 204) {
+            getCategoryData();
+          }
+        }
+      })
+    })
   })
 </script>
 
